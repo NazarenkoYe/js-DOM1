@@ -1,39 +1,55 @@
-// Отримати елемент за ID
-const title = document.getElementById('title');
-console.log('Елемент за ID:', title);
+function calculate(operation) {
+  const num1 = document.getElementById('num1');
+  const num2 = document.getElementById('num2');
+  const resultElement = document.getElementById('result');
+  const error = document.getElementById('error');
 
-// Змінити текст заголовка через 3 секунди
-setTimeout(() => {
-    title.textContent = 'DOM у дії!';
-}, 3000);
+  resultElement.textContent = "Результат:";
+  error.textContent = "";
 
-// Отримати всі елементи з класом 'item'
-const items = document.getElementsByClassName('item');
-console.log('Елементи з класом "item":', items);
+  const a = num1.value;
+  const b = num2.value;
 
-// Змінити текст другого пункту
-if (items.length > 1) {
-    items[1].textContent = 'Змінений пункт 2';
+  if (a === " " || b === " ") {
+    error.textContent = "Пусті поля";
+    return;
+  }
+
+  const A = parseFloat(a);
+  const B = parseFloat(b);
+
+  if (isNaN(A) || isNaN(B)) {
+    error.textContent = "Нечислові дані";
+    return;
+  }
+
+  let result;
+
+  switch (operation) {
+    case '+':
+      result = A + B;
+      break;
+    case '-':
+      result = A - B;
+      break;
+    case '*':
+      result = A * B;
+      break;
+    case '/':
+      if (B === 0) {
+        error.textContent = "Ділення на нуль";
+        return;
+      }
+      result = A / B;
+      break;
+    default:
+      error.textContent = "";
+      return;
+  }
+
+  if (result % 1 !== 0) {
+    result = result.toFixed(5);
+  }
+
+  resultElement.textContent = "Результат: " + result;
 }
-
-// Отримати перший елемент списку за селектором
-const firstItem = document.querySelector('#itemList .item');
-console.log('Перший пункт списку:', firstItem);
-
-// Додати обробник події для кнопки зміни тексту
-document.getElementById('changeTextButton').addEventListener('click', function() {
-    title.textContent = 'Текст змінився!';
-});
-
-const arrayOfItems = document.getElementsByClassName('item');
-console.log(arrayOfItems.length, "FLJKSNfKSNf")
-
-// Додати обробник події для кнопки додавання пункту
-document.getElementById('addItemButton').addEventListener('click', function() {
-    const newItem = document.createElement('li');
-    const arrayOfItems = document.getElementsByClassName('item');
-    console.log(arrayOfItems.length, "FLJKSNfKSNf")
-    newItem.textContent = `Новий пункт ${arrayOfItems.length + 1}`;
-    newItem.className = 'item';
-    document.getElementById('itemList').appendChild(newItem);
-});
